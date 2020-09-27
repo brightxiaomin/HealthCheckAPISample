@@ -24,15 +24,17 @@ namespace HealthCheckAPISample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(option =>
+                { option.EnableEndpointRouting = false; });
             services.AddHealthChecks()
                 .AddDiskStorageHealthCheck(delegate (DiskStorageOptions diskStorageOptions)
                 {
                     diskStorageOptions.AddDrive(@"C:\", 100);
-                }, name: "My Drive", HealthStatus.Unhealthy)
-                .AddSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
+                }, name: "My Drive", HealthStatus.Unhealthy);
+                //.AddSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
             //.AddCheck("My Database", new SqlConnectionHealthCheck(Configuration["ConnectionStrings:DefaultConnection"])); 
             services.AddHealthChecksUI();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

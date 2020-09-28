@@ -30,7 +30,10 @@ namespace HealthCheckAPISample
                 .AddDiskStorageHealthCheck(delegate (DiskStorageOptions diskStorageOptions)
                 {
                     diskStorageOptions.AddDrive(@"C:\", 100);
-                }, name: "My Drive", HealthStatus.Unhealthy);
+                }, name: "My Drive", HealthStatus.Unhealthy)
+                .AddSignalRHub("http://localhost:61055/signalr", "test");
+                
+
                 //.AddSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
             //.AddCheck("My Database", new SqlConnectionHealthCheck(Configuration["ConnectionStrings:DefaultConnection"])); 
             services.AddHealthChecksUI();
